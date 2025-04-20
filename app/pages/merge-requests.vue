@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 
 const branches = ref<string[]>([])
 const requests = ref<any[]>([])
@@ -132,6 +132,9 @@ const statusLabels = {
   rejected: 'Từ chối'
 }
 
+const { user } = useUserSession()
+const isAdmin = computed(() => user.value?.email === 'thenv4@f88.vn')
+
 async function loadData() {
   isLoading.value = true
   error.value = null
@@ -180,13 +183,36 @@ async function createRequest() {
   }
 }
 
+async function deleteMergeRequest(id: number) {
+  try {
+    await $fetch(`/api/merge-requests/${id}`, {
+      method: 'DELETE'
+    })
+    await loadData()
+  } catch (error) {
+    console.error('Failed to delete merge request:', error)
+  }
+}
+
+async function updateMergeRequestStatus(id: number, status: 'pending' | 'merged' | 'rejected') {
+  try {
+    await $fetch(`/api/merge-requests/${id}`, {
+      method: 'PATCH',
+      body: { status }
+    })
+    await loadData()
+  } catch (error) {
+    console.error('Failed to update merge request status:', error)
+  }
+}
+
 onMounted(() => {
   loadData()
 })
 </script>
 
 <template>
-  <div class="max-w-5xl mx-auto px-4 py-8 space-y-8">
+  <div class="max-w-full mx-auto px-4 py-8 space-y-8">
     <!-- Create new merge request -->
     <UCard>
       <template #header>
@@ -333,7 +359,11 @@ onMounted(() => {
             id: 'createdAt',
             accessorKey: 'createdAt',
             header: 'Ngày tạo'
-          }
+          },
+          ...(isAdmin.value ? [{
+            id: 'actions',
+            header: 'Thao tác'
+          }] : [])
         ]"
         :empty-state="{
           icon: 'i-heroicons-inbox-20-solid',
@@ -360,6 +390,40 @@ onMounted(() => {
 
         <template #createdAt-data="{ row }">
           {{ new Date(row.createdAt).toLocaleString('vi-VN') }}
+        </template>
+
+        <template #actions-data="{ row }">
+          <div class="flex items-center gap-2">
+            <UDropdown :items="[
+              {
+                label: 'Chờ merge',
+                icon: 'i-heroicons-clock-20-solid',
+                click: () => updateMergeRequestStatus(row.id, 'pending')
+              },
+              {
+                label: 'Đã merge',
+                icon: 'i-heroicons-check-circle-20-solid',
+                click: () => updateMergeRequestStatus(row.id, 'merged')
+              },
+              {
+                label: 'Từ chối',
+                icon: 'i-heroicons-x-circle-20-solid',
+                click: () => updateMergeRequestStatus(row.id, 'rejected')
+              }
+            ]">
+              <UButton
+                color="gray"
+                variant="ghost"
+                icon="i-heroicons-pencil-square-20-solid"
+              />
+            </UDropdown>
+            <UButton
+              color="red"
+              variant="ghost"
+              icon="i-heroicons-trash-20-solid"
+              @click="deleteMergeRequest(row.id)"
+            />
+          </div>
         </template>
       </UTable>
     </UCard>

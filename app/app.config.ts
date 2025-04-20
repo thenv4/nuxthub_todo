@@ -4,7 +4,7 @@ export default defineAppConfig({
       primary: 'emerald'
     },
     container: {
-      base: 'max-w-5xl'
+      base: 'max-w-full'
     },
     card: {
       slots: {

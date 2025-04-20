@@ -64,7 +64,7 @@
             <!-- Login/Profile -->
             <template v-if="!loggedIn">
               <UButton
-                :to="`https://auth.atlassian.com/authorize?audience=api.atlassian.com&client_id=${config.public.NUXT_OAUTH_JIRA_CLIENT_ID}&scope=read:me%20read:account&redirect_uri=http://localhost:3000/api/auth/jira&response_type=code&prompt=consent`"
+                :to="loginUrl"
                 icon="i-simple-icons-jira"
                 label="Login with Jira"
                 color="neutral"
@@ -131,6 +131,12 @@ import type { DropdownMenuItem } from '#ui/types'
 const { loggedIn, user, clear } = useUserSession()
 const colorMode = useColorMode()
 const config = useRuntimeConfig()
+
+const loginUrl = ref('#')
+
+onMounted(() => {
+  loginUrl.value = `https://auth.atlassian.com/authorize?audience=api.atlassian.com&client_id=${config.public.NUXT_OAUTH_JIRA_CLIENT_ID}&scope=read:me%20read:account&redirect_uri=${encodeURIComponent(window.location.origin + '/api/auth/jira')}&response_type=code&prompt=consent&state=${Math.random().toString(36).substring(7)}`
+})
 
 watch(loggedIn, () => {
   if (!loggedIn.value) {

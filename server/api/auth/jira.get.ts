@@ -24,14 +24,18 @@ export default eventHandler(async (event) => {
     })
   }
 
+  const config = useRuntimeConfig()
+  const origin = getRequestURL(event).origin
+  const redirectUri = `${origin}/api/auth/jira`
+
   const tokenResponse = await $fetch<TokenResponse>('https://auth.atlassian.com/oauth/token', {
     method: 'POST',
     body: {
       grant_type: 'authorization_code',
-      client_id: process.env.NUXT_OAUTH_JIRA_CLIENT_ID,
-      client_secret: process.env.NUXT_OAUTH_JIRA_CLIENT_SECRET,
+      client_id: config.public.NUXT_OAUTH_JIRA_CLIENT_ID,
+      client_secret: config.NUXT_OAUTH_JIRA_CLIENT_SECRET,
       code,
-      redirect_uri: 'http://localhost:3000/api/auth/jira'
+      redirect_uri: redirectUri
     }
   })
 

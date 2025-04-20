@@ -36,6 +36,13 @@
                 :color="$route.path === '/optimistic-todos' ? 'primary' : 'neutral'"
                 variant="ghost"
               />
+              <UButton
+                to="/merge-requests"
+                icon="i-lucide-git-merge"
+                label="Merge Requests"
+                :color="$route.path === '/merge-requests' ? 'primary' : 'neutral'"
+                variant="ghost"
+              />
             </div>
           </div>
 

@@ -15,6 +15,20 @@
       "when": 1745171134251,
       "tag": "0001_quick_the_call",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1745172856796,
+      "tag": "0002_slippery_dakota_north",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1745172856797,
+      "tag": "0003_add_email_fullname",
+      "breakpoints": true
     }
   ]
 }

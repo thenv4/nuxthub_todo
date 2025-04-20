@@ -5,10 +5,13 @@
     "build": "nuxi build",
     "preview": "npx nuxthub preview",
     "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit push:sqlite",
     "lint": "eslint .",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@aws-sdk/client-codecommit": "^3.787.0",
+    "@aws-sdk/credential-providers": "^3.787.0",
     "@iconify-json/lucide": "^1.2.35",
     "@iconify-json/simple-icons": "^1.2.31",
     "@nuxt/ui": "^3.0.2",

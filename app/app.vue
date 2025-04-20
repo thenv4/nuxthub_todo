@@ -3,6 +3,7 @@ import type { DropdownMenuItem } from '#ui/types'
 
 const { loggedIn, user, clear } = useUserSession()
 const colorMode = useColorMode()
+const config = useRuntimeConfig()
 
 watch(loggedIn, () => {
   if (!loggedIn.value) {
@@ -68,9 +69,9 @@ const items = [
           </h3>
           <UButton
             v-if="!loggedIn"
-            to="/api/auth/github"
-            icon="i-simple-icons-github"
-            label="Login with GitHub"
+            :to="`https://auth.atlassian.com/authorize?audience=api.atlassian.com&client_id=${config.public.NUXT_OAUTH_JIRA_CLIENT_ID}&scope=read:me%20read:account&redirect_uri=http://localhost:3000/api/auth/jira&response_type=code&prompt=consent`"
+            icon="i-simple-icons-jira"
+            label="Login with Jira"
             color="neutral"
             size="xs"
             external
@@ -103,11 +104,11 @@ const items = [
                 trailing-icon="i-lucide-chevron-down"
               >
                 <UAvatar
-                  :src="`https://github.com/${user.login}.png`"
-                  :alt="user.login"
+                  :src="user.picture"
+                  :alt="user.name"
                   size="3xs"
                 />
-                {{ user.login }}
+                {{ user.name }}
               </UButton>
             </UDropdownMenu>
           </div>

@@ -30,15 +30,15 @@ Make sure to install the dependencies using [pnpm](https://pnpm.io/):
 pnpm i
 ```
 
-Create a [GitHub Oauth Application](https://github.com/settings/applications/new) with:
+Create a [Jira OAuth Application](https://developer.atlassian.com/console/myapps/) with:
 - Homepage url: `http://localhost:3000`
-- Callback url: `http://localhost:3000/api/auth/github`
+- Callback url: `http://localhost:3000/api/auth/jira`
 
 Add the variables in the `.env` file:
 
 ```bash
-NUXT_OAUTH_GITHUB_CLIENT_ID="my-github-oauth-app-id"
-NUXT_OAUTH_GITHUB_CLIENT_SECRET="my-github-oauth-app-secret"
+NUXT_OAUTH_JIRA_CLIENT_ID="your-jira-oauth-app-id"
+NUXT_OAUTH_JIRA_CLIENT_SECRET="your-jira-oauth-app-secret"
 ```
 
 To create sealed sessions, you also need to add `NUXT_SESSION_PASSWORD` in the `.env` with at least 32 characters:

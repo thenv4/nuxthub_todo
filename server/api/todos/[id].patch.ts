@@ -15,7 +15,7 @@ export default eventHandler(async (event) => {
     completed
   }).where(and(
     eq(tables.todos.id, id),
-    eq(tables.todos.userId, user.id)
+    eq(tables.todos.userId, user.accountId)
   )).returning().get()
 
   return todo

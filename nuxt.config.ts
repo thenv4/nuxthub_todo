@@ -24,5 +24,10 @@ export default defineNuxtConfig({
         commaDangle: 'never'
       }
     }
+  },
+  runtimeConfig: {
+    public: {
+      NUXT_OAUTH_JIRA_CLIENT_ID: process.env.NUXT_OAUTH_JIRA_CLIENT_ID
+    }
   }
 })

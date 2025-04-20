@@ -8,7 +8,7 @@ export default eventHandler(async (event) => {
 
   // Insert todo for the current user
   const todo = await useDB().insert(tables.todos).values({
-    userId: user.id,
+    userId: user.accountId,
     title,
     createdAt: new Date()
   }).returning().get()

@@ -40,7 +40,7 @@ const { mutate: addTodo } = useMutation({
       // a negative id to differentiate them from the server ones
       id: -Date.now(),
       createdAt: new Date(),
-      userId: user.value!.id
+      userId: user.value!.accountId
     } satisfies Todo
     // we use newTodos to check for the cache consistency
     // a better way would be to save the entry time
